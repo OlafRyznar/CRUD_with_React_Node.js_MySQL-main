@@ -10,55 +10,55 @@ const Add = () => {
     cover: "",
   });
   const [uploadStatus, setUploadStatus] = useState('');
-  const [image, setImage] = useState('');
+ // const [image, setImage] = useState('');
 
   const navigate = useNavigate();
 
-  // Fetch image URL when the component mounts
-  useEffect(() => {
-    fetch('http://localhost:8800/api/image', {
-      method: 'GET',
-      headers: {
-        "Content-Type": 'application/json',
-        'Accept': 'application/json',
-      },
-      credentials: 'include',
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setImage('http://localhost:8800/' + data.image);
-      })
-      .catch((error) => {
-        console.error('Error fetching image:', error);
-      });
-  }, []); // Empty dependency array to run only once when the component mounts
+  // // Fetch image URL when the component mounts
+  // useEffect(() => {
+  //   fetch('http://localhost:8800/api/image', {
+  //     method: 'GET',
+  //     headers: {
+  //       "Content-Type": 'application/json',
+  //       'Accept': 'application/json',
+  //     },
+  //     credentials: 'include',
+  //   })
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       setImage('http://localhost:8800/' + data.image);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching image:', error);
+  //     });
+  // }, []);
+  
+  // // Handle image file upload
+  // const imageHandler = (event) => {
+  //   const file = event.target.files[0];
+  //   const formData = new FormData();
+  //   formData.append('image', file);
 
-  // Handle image file upload
-  const imageHandler = (event) => {
-    const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append('image', file);
-
-    fetch('http://localhost:8800/api/image', {
-      method: 'POST',
-      body: formData,
-      credentials: 'include',
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setUploadStatus(res.msg);
-        // Optionally update cover field if needed
-        setBook((prev) => ({ ...prev, cover: res.file.path }));
-      })
-      .catch((err) => {
-        console.error('Error uploading image:', err);
-      });
-  };
+  //   fetch('http://localhost:8800/api/image', {
+  //     method: 'POST',
+  //     body: formData,
+  //     credentials: 'include',
+  //   })
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       setUploadStatus(res.msg);
+  //       // Optionally update cover field if needed
+  //       setBook((prev) => ({ ...prev, cover: res.file.path }));
+  //     })
+  //     .catch((err) => {
+  //       console.error('Error uploading image:', err);
+  //     });
+  // };
 
   // Handle input field changes
   const handleChange = (e) => {
@@ -68,6 +68,8 @@ const Add = () => {
   // Handle form submission
   const handleClick = async (e) => {
     e.preventDefault();
+    console.log(book)
+
     try {
       await axios.post('http://localhost:8800/book', book);
       navigate('/');
@@ -103,7 +105,7 @@ const Add = () => {
           onChange={handleChange}
           name='price'
         />
-        <input
+        {/* <input
           className='w-4/12 h-10 rounded-xl'
           type='file'
           name='image'
@@ -111,15 +113,15 @@ const Add = () => {
           multiple={false}
           onChange={imageHandler}
         />
-        <h2>{uploadStatus}</h2>
-        <button
+        <h2>{uploadStatus}</h2> */}
+        {/* <button
           className='w-2/12 mt-6 bg-green-200 text-black px-6 py-3 rounded-2xl'
           onClick={handleClick}
         >
           Add
-        </button>
+        </button> */}
       </div>
-      {image && <img src={image} alt="Uploaded Preview" />}
+      {/* {image && <img src={image} alt="Uploaded Preview" />} */}
     </div>
   );
 };
